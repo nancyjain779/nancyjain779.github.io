@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Nancy Jain — GenAI / LLM / Agentic AI Engineer. LangGraph agents, MCP tool-calling, text-to-SQL, RAG, enterprise attribute tagging, semantic product matching, AWS Bedrock." />
+  <meta name="keywords" content="Agentic AI Engineer, LangGraph, MCP, Text-to-SQL, RAG, NER, Product Matching, LLM Evaluation, AWS Bedrock, Nancy Jain" />
+  <meta property="og:title" content="Nancy Jain — GenAI / LLM / Agentic AI Engineer" />
+  <meta property="og:description" content="Production LLM & agentic AI: LangGraph text-to-SQL, enterprise attribute tagging, MetaMapper, semantic product matching, AWS Bedrock." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://nancyjain779.github.io/" />
+  <title>Nancy Jain — GenAI / LLM / Agentic AI Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #070b11;
+      --bg-2: #0d131c;
+      --surface: #111926;
+      --surface-2: #16202f;
+      --border: #1f2d3f;
+      --border-lit: #2b3f57;
+      --text: #eef3f9;
+      --muted: #93a4b8;
+      --faint: #6b7d92;
+      --accent: #4f9cff;
+      --accent-2: #6ee7b7;
+      --accent-3: #a78bfa;
+      --grad: linear-gradient(120deg, #4f9cff 0%, #7c5cff 100%);
+      --grad-agent: linear-gradient(120deg, #6ee7b7 0%, #4f9cff 100%);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 15px;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    .wrap { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    .glow {
+      position: fixed; top: -200px; left: 50%; transform: translateX(-50%);
+      width: 900px; height: 600px; pointer-events: none; z-index: 0;
+      background: radial-gradient(ellipse at center, rgba(79,156,255,0.14), transparent 62%);
+      filter: blur(20px);
+    }
+
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(12px);
+      background: rgba(7,11,17,0.72);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 58px; }
+    nav .brand { font-weight: 700; letter-spacing: -0.01em; }
+    nav .brand span { color: var(--accent); }
+    nav .nav-links { display: flex; gap: 22px; }
+    nav .nav-links a { color: var(--muted); font-size: 14px; font-weight: 500; transition: color .15s; }
+    nav .nav-links a:hover { color: var(--text); }
+    @media (max-width: 620px) { nav .nav-links { display: none; } }
+
+    header { position: relative; z-index: 1; padding: 84px 0 44px; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; border-radius: 999px;
+      background: rgba(110,231,183,0.08); border: 1px solid rgba(110,231,183,0.25);
+      color: var(--accent-2); font-size: 13px; font-weight: 500; margin-bottom: 22px;
+    }
+    .badge .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-2); box-shadow: 0 0 8px var(--accent-2); }
+    header h1 { font-size: 3rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.08; }
+    header h1 .grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    header .role { font-size: 1.35rem; font-weight: 600; margin-top: 10px; color: var(--text); }
+    header .tagline { color: var(--muted); margin-top: 18px; max-width: 640px; font-size: 1.05rem; }
+    .focus-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .focus-pill {
+      font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 999px;
+      background: var(--surface-2); border: 1px solid var(--border); color: var(--muted);
+    }
+    .focus-pill.hot { background: rgba(110,231,183,0.08); border-color: rgba(110,231,183,0.3); color: var(--accent-2); }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 20px; border-radius: 10px; font-size: 14px; font-weight: 600;
+      border: 1px solid var(--border-lit); background: var(--surface); color: var(--text);
+      transition: transform .15s, border-color .15s, background .15s; cursor: pointer;
+    }
+    .btn:hover { transform: translateY(-2px); border-color: var(--accent); }
+    .btn-primary { background: var(--grad); border: none; color: #fff; }
+    .btn-primary:hover { opacity: .95; }
+    @media (max-width: 620px) { header h1 { font-size: 2.1rem; } header { padding: 52px 0 32px; } }
+
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 44px; }
+    .stat {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+      padding: 18px 16px; text-align: center;
+    }
+    .stat .num { font-size: 1.5rem; font-weight: 800; background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .stat .num.agent { background: var(--grad-agent); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .stat .lbl { font-size: 12px; color: var(--faint); margin-top: 4px; line-height: 1.35; }
+    @media (max-width: 620px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+
+    section { position: relative; z-index: 1; padding: 52px 0; }
+    .sec-head { display: flex; align-items: center; gap: 12px; margin-bottom: 26px; }
+    .sec-head h2 { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.01em; }
+    .sec-head .rule { flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
+    .sec-head .idx { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--accent); }
+
+    .pillars { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 28px; }
+    @media (max-width: 620px) { .pillars { grid-template-columns: 1fr; } }
+    .pillar {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px;
+    }
+    .pillar .icon { font-size: 1.4rem; margin-bottom: 8px; }
+    .pillar h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
+    .pillar p { font-size: 13.5px; color: var(--muted); line-height: 1.5; }
+
+    .skill-cats { display: grid; gap: 14px; }
+    .skill-cat { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; }
+    .skill-cat .cat { font-size: 13px; color: var(--faint); min-width: 130px; font-weight: 600; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      padding: 6px 13px; border-radius: 8px; font-size: 13px; font-weight: 500;
+      background: var(--surface-2); border: 1px solid var(--border); color: #cdd9e6;
+      transition: border-color .15s, color .15s;
+    }
+    .chip:hover { border-color: var(--accent); color: #fff; }
+    .chip.core { background: rgba(79,156,255,0.1); border-color: rgba(79,156,255,0.35); color: #9ecbff; }
+    .chip.agent { background: rgba(110,231,183,0.08); border-color: rgba(110,231,183,0.3); color: var(--accent-2); }
+
+    .proj { display: grid; gap: 16px; }
+    .card {
+      background: linear-gradient(180deg, var(--surface), var(--bg-2));
+      border: 1px solid var(--border); border-radius: 16px; padding: 24px;
+      transition: transform .18s, border-color .18s, box-shadow .18s; position: relative; overflow: hidden;
+    }
+    .card:hover { transform: translateY(-3px); border-color: var(--border-lit); box-shadow: 0 12px 40px -12px rgba(0,0,0,0.6); }
+    .card.featured { border-color: rgba(110,231,183,0.25); }
+    .card.featured::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: var(--grad-agent);
+    }
+    .card .toprow { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 6px; }
+    .card h3 { font-size: 1.1rem; font-weight: 700; }
+    .card .tag {
+      font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 999px; white-space: nowrap;
+      background: rgba(110,231,183,0.1); color: var(--accent-2); border: 1px solid rgba(110,231,183,0.22);
+    }
+    .card .tag.live { background: rgba(79,156,255,0.12); color: #9ecbff; border-color: rgba(79,156,255,0.3); }
+    .card .tag.agent { background: rgba(167,139,250,0.12); color: var(--accent-3); border-color: rgba(167,139,250,0.3); }
+    .card .stack { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--faint); margin-bottom: 12px; }
+    .card p { color: #c5d2df; font-size: 14.5px; }
+    .card ul { list-style: none; margin-top: 10px; display: grid; gap: 7px; }
+    .card li { color: #c5d2df; font-size: 14px; padding-left: 20px; position: relative; }
+    .card li::before { content: "▸"; position: absolute; left: 0; color: var(--accent); }
+    .card li strong { color: var(--text); font-weight: 600; }
+    .card .links { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+    .card .links a {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600;
+      padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border-lit); color: var(--text);
+      transition: border-color .15s, background .15s;
+    }
+    .card .links a:hover { border-color: var(--accent); background: var(--surface-2); }
+    .card .links a.primary { background: var(--grad); border: none; color: #fff; }
+    .nda { font-size: 13px; color: var(--faint); margin-top: 4px; }
+    .nda strong { color: var(--muted); }
+
+    .exp { display: grid; gap: 22px; }
+    .job { display: grid; grid-template-columns: 150px 1fr; gap: 20px; }
+    .job .side .co { font-weight: 700; }
+    .job .side .date { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--faint); margin-top: 3px; }
+    .job .side .title { font-size: 13px; color: var(--accent); margin-top: 6px; font-weight: 500; }
+    .job .body ul { list-style: none; display: grid; gap: 8px; }
+    .job .body li { color: #c5d2df; font-size: 14px; padding-left: 20px; position: relative; }
+    .job .body li::before { content: "▸"; position: absolute; left: 0; color: var(--accent); }
+    .job .body li strong { color: var(--text); font-weight: 600; }
+    @media (max-width: 620px) { .job { grid-template-columns: 1fr; gap: 10px; } }
+
+    .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 620px) { .duo { grid-template-columns: 1fr; } }
+    .mini { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
+    .mini h4 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--faint); margin-bottom: 12px; }
+    .mini ul { list-style: none; display: grid; gap: 10px; }
+    .mini li { font-size: 14px; color: #c5d2df; }
+    .mini li strong { color: var(--text); }
+
+    .contact-card {
+      background: linear-gradient(135deg, rgba(79,156,255,0.1), rgba(124,92,255,0.08));
+      border: 1px solid var(--border-lit); border-radius: 18px; padding: 36px; text-align: center;
+    }
+    .contact-card h2 { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; }
+    .contact-card p { color: var(--muted); margin-top: 8px; }
+    .contact-card .cta-row { justify-content: center; margin-top: 24px; }
+
+    footer { z-index: 1; position: relative; padding: 40px 0 56px; text-align: center; color: var(--faint); font-size: 13px; }
+    footer .mono { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="glow"></div>
+
+  <nav>
+    <div class="wrap">
+      <div class="brand">Nancy<span>.</span>Jain</div>
+      <div class="nav-links">
+        <a href="#projects">Projects</a>
+        <a href="#experience">Experience</a>
+        <a href="#skills">Stack</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <header>
+    <div class="wrap">
+      <div class="badge"><span class="dot"></span> Open to GenAI / LLM / Agentic AI roles</div>
+      <h1>I build <span class="grad">production LLM &amp; agentic AI</span> systems that ship.</h1>
+      <p class="role">Nancy Jain — GenAI / LLM / Agentic AI Engineer</p>
+      <p class="tagline">
+        GenAI / LLM Engineer with nearly 3 years shipping production LLM systems and agents — LangGraph text-to-SQL,
+        enterprise attribute tagging (NER, classifiers, 28+ types), MetaMapper (2M+ records, graph retrieval + reranking),
+        and semantic product matching at scale on AWS Bedrock.
+      </p>
+      <div class="focus-row">
+        <span class="focus-pill hot">Agentic AI</span>
+        <span class="focus-pill hot">LangGraph</span>
+        <span class="focus-pill hot">Text-to-SQL</span>
+        <span class="focus-pill">RAG</span>
+        <span class="focus-pill">NER / Classifiers</span>
+        <span class="focus-pill">MetaMapper</span>
+        <span class="focus-pill">Hybrid Retrieval</span>
+        <span class="focus-pill">AWS Bedrock</span>
+      </div>
+      <div class="cta-row">
+        <a href="Final_agentic_resume.pdf" download="Nancy_Jain_Final_Agentic_Resume.pdf" class="btn btn-primary">↓ Download Résumé</a>
+        <a href="https://www.linkedin.com/in/nancyjain779/" target="_blank" rel="noopener" class="btn">LinkedIn</a>
+        <a href="https://github.com/nancyjain779" target="_blank" rel="noopener" class="btn">GitHub</a>
+        <a href="mailto:jainnancy779@gmail.com" class="btn">Email</a>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><div class="num">~3</div><div class="lbl">Years shipping<br/>production AI</div></div>
+        <div class="stat"><div class="num">2M+</div><div class="lbl">Product records<br/>classified</div></div>
+        <div class="stat"><div class="num agent">12</div><div class="lbl">FastMCP tools<br/>Outbound Cockpit</div></div>
+        <div class="stat"><div class="num">Live</div><div class="lbl">Deployed agent<br/>+ RAG app</div></div>
+      </div>
+    </div>
+  </header>
+
+  <section id="projects">
+    <div class="wrap">
+      <div class="sec-head"><span class="idx">01</span><h2>Selected Work</h2><span class="rule"></span></div>
+
+      <div class="pillars">
+        <div class="pillar">
+          <div class="icon">🤖</div>
+          <h3>Agentic AI</h3>
+          <p>LangGraph agents with conditional routing, tool-calling, self-healing loops, LLM-as-judge validation, and MCP tool servers.</p>
+        </div>
+        <div class="pillar">
+          <div class="icon">🏷️</div>
+          <h3>Attribute Tagging &amp; MetaMapper</h3>
+          <p>Enterprise attribute tagging (NER, classifiers, SDE, KG normalization, LLM fallback) plus MetaMapper taxonomy classification with graph-based retrieval + reranking at 2M+ record scale.</p>
+        </div>
+        <div class="pillar">
+          <div class="icon">⚖️</div>
+          <h3>LLM Evaluation</h3>
+          <p>LLM-as-judge validators, prompt-variant comparison, and ranking metrics (Recall@k, MRR, NDCG, AUC).</p>
+        </div>
+        <div class="pillar">
+          <div class="icon">🏗️</div>
+          <h3>Production Systems</h3>
+          <p>FastAPI microservices on AWS Bedrock with hardened inference, Redis/Postgres state, async batch jobs, and Kubernetes deployment.</p>
+        </div>
+      </div>
+
+      <div class="proj">
+
+        <div class="card featured">
+          <div class="toprow">
+            <h3>AskAI — Agentic Text-to-SQL Assistant (LangGraph)</h3>
+            <span class="tag agent">Agentic AI · Flagship</span>
+          </div>
+          <div class="stack">LangGraph · FastAPI · AWS Bedrock (Claude) · ChromaDB · Athena/DuckDB · Redis · Postgres</div>
+          <p>Production <strong>agentic text-to-SQL system</strong> on <strong>LangGraph</strong> (13+ node StateGraph, FastAPI, AWS Bedrock Claude) that autonomously plans, generates, and executes SQL over Athena/DuckDB via conditional routing.</p>
+          <ul>
+            <li><strong>RAG schema grounding</strong> (ChromaDB + Titan embeddings) and <strong>tool-calling KPI computation</strong>.</li>
+            <li><strong>Self-correction loops</strong> — LLM-as-judge validator that semantically verifies results and triggers SQL regeneration, plus bounded execution-error retries.</li>
+            <li><strong>Cross-turn conversational memory</strong> resolving follow-ups in-memory (sub-second, no LLM/DB call) with Redis result externalization + Postgres checkpointing.</li>
+          </ul>
+        </div>
+
+        <div class="card featured">
+          <div class="toprow">
+            <h3>Outbound Cockpit — LangGraph + MCP Sales Research</h3>
+            <span class="tag agent">Agentic AI</span>
+          </div>
+          <div class="stack">LangGraph · FastMCP · FastAPI · Node.js · SSE · MongoDB · Render</div>
+          <p><strong>LangGraph orchestrator</strong> with <strong>12 FastMCP tools</strong>, <strong>LLM-as-judge validation loops</strong>, and <strong>MongoDB thread memory</strong> — replacing a monolithic prompt→JSON pipeline.</p>
+          <ul>
+            <li>Live <strong>SSE agent trace</strong> (plan → tool → synthesize → validate).</li>
+            <li>Tools: Apollo enrich, Apify LinkedIn, Perplexity research, CRM read/write, classify, validate.</li>
+            <li><strong>Node + Python sidecar</strong> on Render — secured internal tool bridge with legacy fallback.</li>
+          </ul>
+          <div class="links">
+            <a href="https://outbound-cockpit-xopw.onrender.com/cockpit.html" target="_blank" rel="noopener" class="primary">↗ Live App</a>
+            <a href="https://github.com/nancyjain779/outbound-cockpit" target="_blank" rel="noopener">View Code</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="toprow">
+            <h3>Enterprise Attribute Tagging</h3>
+            <span class="tag">DataWeave</span>
+          </div>
+          <div class="stack">FastAPI · Celery · K8s/SQS · NER · Classifiers · SDE · KG Normalization · LLM Fallback</div>
+          <p>Production attribute tagging platform routing <strong>NER</strong>, classifiers, <strong>SDE</strong>, KG normalization, and <strong>LLM fallback</strong> across <strong>28+ product types</strong>.</p>
+        </div>
+
+        <div class="card">
+          <div class="toprow">
+            <h3>MetaMapper — Taxonomy Classification + Graph Reranking</h3>
+            <span class="tag">DataWeave</span>
+          </div>
+          <div class="stack">Qdrant · BGE · BM25 · NetworkX · Cross-Encoder · Bedrock (Claude)</div>
+          <p>Classifies <strong>2M+ product records</strong> into canonical retail taxonomies (embeddings → Qdrant → Bedrock Claude, <strong>80% → 97%</strong> accuracy).</p>
+          <ul>
+            <li><strong>Graph-based retrieval + reranking</strong> — NetworkX hierarchy graph, hybrid vector + BM25, cross-encoder rerank, confidence routing.</li>
+            <li>Lifted long-tail coverage <strong>~3×</strong> (<strong>94.7% Recall@5</strong>) and cut LLM calls <strong>30–40%</strong>.</li>
+          </ul>
+        </div>
+
+        <div class="duo">
+          <div class="card">
+            <div class="toprow"><h3>Semantic Product Matching</h3><span class="tag">DataWeave</span></div>
+            <div class="stack">BM25 · BGE-M3 · RRF · HNSW · Cross-Encoder · Solr · LLM Validation · Bedrock</div>
+            <p>Million-scale pipeline: <strong>BM25 + BGE-M3 + RRF</strong>, <strong>HNSW</strong>, cross-encoder rerank, <strong>LLM validation</strong>, Exact/Similar/Reject (<strong>Top-1, MRR, NDCG, AUC</strong>); includes <strong>Image Similarity API</strong> on Bedrock.</p>
+          </div>
+          <div class="card">
+            <div class="toprow"><h3>Execute Community (EXCOM) — RAG AI Assistant</h3><span class="tag live">● Live</span></div>
+            <div class="stack">Python · FastAPI · LangChain · MongoDB · RAG · MLflow</div>
+            <p><strong>RAG-powered assistant</strong> on a live community platform with <strong>MLflow</strong> prompt evaluation and AI moderation (NLP similarity scoring).</p>
+            <div class="links">
+              <a href="https://www.executepartners.com/Community" target="_blank" rel="noopener" class="primary">↗ Live App</a>
+              <a href="https://github.com/nancyjain779/Execute_AI/tree/main/execute-partners-backend" target="_blank" rel="noopener">View Code</a>
+            </div>
+          </div>
+        </div>
+
+        <p class="nda"><strong>Note:</strong> DataWeave systems are production/NDA work — architecture summarized here; happy to walk through design decisions in an interview.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="wrap">
+      <div class="sec-head"><span class="idx">02</span><h2>Experience</h2><span class="rule"></span></div>
+      <div class="exp">
+        <div class="job">
+          <div class="side">
+            <div class="co">DataWeave</div>
+            <div class="date">Mar 2024 — Present</div>
+            <div class="title">Data Scientist (GenAI / LLM &amp; Agentic AI)</div>
+          </div>
+          <div class="body">
+            <ul>
+              <li>Built <strong>AskAI</strong>, a production <strong>agentic text-to-SQL system</strong> on <strong>LangGraph</strong> (13+ node StateGraph, FastAPI, AWS Bedrock Claude) that autonomously plans, generates, and executes SQL over <strong>Athena/DuckDB</strong> via <strong>conditional routing</strong>, <strong>RAG</strong> schema grounding (ChromaDB + Titan embeddings), and <strong>tool-calling</strong> KPI computation.</li>
+              <li>Engineered its <strong>self-correction loops</strong> — an <strong>LLM-as-judge</strong> validator that semantically verifies results and triggers SQL regeneration, plus bounded execution-error retries — and <strong>cross-turn conversational memory</strong> resolving follow-ups in-memory (sub-second, no LLM/DB call) with <strong>Redis</strong> result externalization + <strong>Postgres</strong> checkpointing.</li>
+              <li>Built <strong>enterprise attribute tagging</strong> (<strong>FastAPI + Celery</strong>, <strong>K8s/SQS</strong>; <strong>NER</strong>, classifiers, <strong>SDE</strong>, KG normalization, <strong>LLM fallback</strong>; <strong>28+</strong> types).</li>
+              <li>Built <strong>MetaMapper</strong>, classifying <strong>2M+ product records</strong> into canonical retail taxonomies (embeddings → Qdrant → Bedrock Claude, <strong>80% → 97%</strong> accuracy), and engineered a <strong>graph-based retrieval + reranking</strong> engine (NetworkX hierarchy graph, hybrid vector + BM25, cross-encoder rerank, confidence routing) that lifted long-tail coverage <strong>~3×</strong> (<strong>94.7% Recall@5</strong>) and cut LLM calls <strong>30–40%</strong>.</li>
+              <li>Developed <strong>semantic product matching</strong> (million-scale Solr): <strong>BM25 + BGE-M3 + RRF</strong>, <strong>HNSW</strong>, cross-encoder rerank, <strong>LLM validation</strong>, Exact/Similar/Reject (<strong>Top-1, MRR, NDCG, AUC</strong>); <strong>Image Similarity API</strong> (Bedrock).</li>
+            </ul>
+          </div>
+        </div>
+        <div class="job">
+          <div class="side">
+            <div class="co">Corazor Technology</div>
+            <div class="date">Oct 2023 — Mar 2024</div>
+            <div class="title">AI Engineer</div>
+          </div>
+          <div class="body">
+            <ul>
+              <li>Built <strong>SpectrAble</strong>, a <strong>RAG-based insight engine</strong> with a <strong>feedback-driven re-ranking loop</strong> (human-in-the-loop) where clinician validations dynamically adjusted retrieval ranking using relevance scoring, improving grounding over baseline.</li>
+              <li>Delivered an <strong>event-driven reconciliation system</strong> with <strong>28+ anomaly-detection use cases</strong> and a <strong>Gemini/Dialogflow conversational agent</strong>, deployed via an async Node–Python inference bridge (caching, fallback) under <strong>DPDP/GDPR</strong> compliance.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap">
+      <div class="sec-head"><span class="idx">03</span><h2>Core Stack</h2><span class="rule"></span></div>
+      <div class="skill-cats">
+        <div class="skill-cat">
+          <span class="cat">Agentic AI</span>
+          <div class="chips">
+            <span class="chip agent">LangGraph</span>
+            <span class="chip agent">Text-to-SQL (NL2SQL)</span>
+            <span class="chip agent">Tool / Function Calling</span>
+            <span class="chip agent">MCP (Model Context Protocol)</span>
+            <span class="chip agent">Self-Healing Loops</span>
+            <span class="chip agent">LLM-as-Judge</span>
+            <span class="chip">Conversational Memory</span>
+            <span class="chip agent">SSE Streaming</span>
+            <span class="chip">LiteLLM</span>
+          </div>
+        </div>
+        <div class="skill-cat">
+          <span class="cat">GenAI / LLM</span>
+          <div class="chips">
+            <span class="chip core">RAG</span>
+            <span class="chip core">LLM Evaluation</span>
+            <span class="chip">NER</span>
+            <span class="chip">Text Classification</span>
+            <span class="chip">Hybrid Search (BM25)</span>
+            <span class="chip">Cross-Encoder Reranking</span>
+            <span class="chip">BGE-M3 Embeddings</span>
+            <span class="chip">Fine-Tuning</span>
+            <span class="chip">Multimodal LLMs</span>
+            <span class="chip">LangChain</span>
+            <span class="chip">Hugging Face</span>
+          </div>
+        </div>
+        <div class="skill-cat">
+          <span class="cat">Engineering</span>
+          <div class="chips">
+            <span class="chip core">Python</span>
+            <span class="chip core">FastAPI</span>
+            <span class="chip">REST APIs</span>
+            <span class="chip">Celery</span>
+            <span class="chip">MLflow</span>
+            <span class="chip">Prometheus</span>
+            <span class="chip">Async / Concurrency</span>
+            <span class="chip">SQL</span>
+          </div>
+        </div>
+        <div class="skill-cat">
+          <span class="cat">Cloud / Infra</span>
+          <div class="chips">
+            <span class="chip core">AWS Bedrock</span>
+            <span class="chip">Athena · S3 · SQS</span>
+            <span class="chip core">Qdrant</span>
+            <span class="chip">ChromaDB</span>
+            <span class="chip">Solr</span>
+            <span class="chip">Redis · Postgres · MongoDB · DuckDB · Snowflake</span>
+            <span class="chip">Docker</span>
+            <span class="chip">Kubernetes</span>
+            <span class="chip">Kafka</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="duo">
+        <div class="mini">
+          <h4>Achievements</h4>
+          <ul>
+            <li><strong>94.38 Percentile</strong> (Rank 275 / 4,892) — Amazon ML Challenge: Product Length Prediction, Apr 2023</li>
+            <li><strong>2nd Runner-Up</strong> — MAMC Health-A-Thon: Depression Detection, Oct 2022</li>
+            <li><strong>Machine Learning Certification</strong> — IBM SkillsBuild, May 2023</li>
+          </ul>
+        </div>
+        <div class="mini">
+          <h4>Education</h4>
+          <ul>
+            <li><strong>B.Tech in Computer Science and Engineering</strong></li>
+            <li>Dr. A.P.J. Abdul Kalam Technical University, India</li>
+            <li class="mono" style="color: var(--faint); font-size: 13px;">Jul 2020 — Jul 2024 · CGPA 7.0/10.0</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact-card">
+        <h2>Let's build something.</h2>
+        <p>Open to GenAI Engineer · LLM Engineer · Agentic AI Engineer · Applied AI Engineer roles.</p>
+        <div class="cta-row">
+          <a href="mailto:jainnancy779@gmail.com" class="btn btn-primary">✉ jainnancy779@gmail.com</a>
+          <a href="https://www.linkedin.com/in/nancyjain779/" target="_blank" rel="noopener" class="btn">LinkedIn</a>
+          <a href="Final_agentic_resume.pdf" download="Nancy_Jain_Final_Agentic_Resume.pdf" class="btn">Résumé</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <p class="mono">Nancy Jain · GenAI / LLM / Agentic AI Engineer · India</p>
+      <p style="margin-top: 6px;">Built &amp; deployed on GitHub Pages.</p>
+    </div>
+  </footer>
+</body>
+</html>
